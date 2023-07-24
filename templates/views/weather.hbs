@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{>style}}
+    {{>headerlinks}}
+</head>
+
+<body>
+    {{>nav}}
+    <!-- -------------main-header----------------- -->
+    <div class="container-fluid main-header">
+        <div class="row">
+            <div class="col-md-10 col-12 mx-auto">
+
+                <!-- ----------left-side-div------------- -->
+
+                <div class="main-content">
+                    <form class="temp-form">
+                        <input type="text" id="cityname" placeholder="Enter Your cuty name" autocomplete="off">
+                        <input type="submit" value="Search" id="submitBtn">
+                    </form>
+                </div>
+
+                <div class="tempratureinfo">
+                    <div class="top-layer">
+                        <p id="day">Day</p>
+                        <p id="today-date">Date</p>
+                    </div>
+                    <div class="main-layer">
+                        <p id="city-name">Get Output Here</p>
+                        <div class="middle-layer">
+                            <p id="temp"><span id="temp_real_val">0</span><sup>o</sup>C</p>
+                            <p id="temp-status"><i class="fa-solid fa-cloud"></i></p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- --------------------fotter---------------- -->
+    {{>footer}}
+    {{>footerlinks}}
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const cityname = document.getElementById('cityname');
+        const outputmassage = document.getElementById('city-name');
+        const temp_real_val = document.getElementById('temp_real_val');
+        const tempstatus = document.getElementById('temp-status');
+        const datahide = document.querySelector('.middle-layer');
+
+
+        const submit = async (e) => {
+            e.preventDefault();
+            const cityval = cityname.value;
+            if (cityval === '') {
+                outputmassage.innerText = "Plz Write Something Before Search";
+                datahide.classList.add('data_hide');
+ 
+            }
+            else {
+                try {
+                    let url = ` https://api.openweathermap.org/data/2.5/weather?q=${cityval}&appid=75a85bdb66eba2d319305f46800aa2fd`
+                    const respnce = await fetch(url);
+                    const data = await respnce.json();
+                    const arr = [data];
+                    temp_real_val.innerHTML = arr[0].main.temp;
+                    outputmassage.innerText = `${arr[0].name}  , ${arr[0].sys.country}`;
+                    console.log(arr)
+
+                    const tempmood = arr[0].weather[0].main;
+
+                    if (tempmood == 'Clear') {
+                        tempstatus.innerHTML = "<i class='fa-sharp fa-solid fa-sun' style='color: #eccc68;''></i>"
+                    }
+                    else if (tempmood == 'Rain') {
+                        tempstatus.innerHTML = "<i class='fa-sharp fa-solid fa-rain' style='color: #f1f2f6;''></i>"
+                    }
+                    else if (tempmood == 'Clouds') {
+                        tempstatus.innerHTML = "<i class='fa-sharp fa-solid fa-cloud' style='color: #a4b0be;''></i>"
+                    }
+                    else {
+                        tempstatus.innerHTML = "<i class='fa-sharp fa-solid fa-cloud' style='color: #f1f2f6;''></i>"
+                    }
+
+                    datahide.classList.remove('data_hide')
+                }
+                catch {
+                    outputmassage.innerText = "Plz enter the city name peoperly";
+                    datahide.classList.add('data_hide');
+                }
+            }
+            const getCurrentday = () => {
+                const day = document.getElementById("day");
+                var weekday = new Array(7);
+                weekday[0] = "Sunday";
+                weekday[1] = "Monday";
+                weekday[2] = "Tuesday";
+                weekday[3] = "Wednesday";
+                weekday[4] = "Thursday";
+                weekday[5] = "Friday";
+                weekday[6] = "Saturday";
+                let currentTime = new Date();
+                let days = weekday[currentTime.getDay()];
+                if(cityval === ''){
+                     day.innerText = "Day";
+                     }
+                     else{
+                   day.innerText=days;
+                     }
+               
+            }
+            getCurrentday();
+
+
+
+
+            const getcurrenttime = () => {
+                var months = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Agust",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ]
+                var now = new Date();
+                var month = months[now.getMonth() + 1];
+                var day = now.getDate();
+                let newdate = document.getElementById('today-date');
+                 if(cityval === ''){
+                     newdate.innerText = `Date,Month`;
+                     }
+                     else{
+                  newdate.innerText = `${day},${month}`;
+                     }
+               
+                
+            }
+            getcurrenttime();
+        }
+        submitBtn.addEventListener('click', submit);
+
+    </script>
+</body>
+
+</html>

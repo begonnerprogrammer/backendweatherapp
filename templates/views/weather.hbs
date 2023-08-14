@@ -104,11 +104,12 @@
                 weekday[6] = "Saturday";
                 let currentTime = new Date();
                 let days = weekday[currentTime.getDay()];
+                var year=currentTime.getFullYear();
                 if(cityval === ''){
                      day.innerText = "Day";
                      }
                      else{
-                   day.innerText=days;
+                   day.innerText=`${days},${year}`;
                      }
                
             }
@@ -126,21 +127,23 @@
                     "May",
                     "Jun",
                     "Jul",
-                    "Agust",
+                    "Aug",
                     "Sep",
                     "Oct",
                     "Nov",
                     "Dec",
                 ]
                 var now = new Date();
-                var month = months[now.getMonth() + 1];
+                var month = months[now.getMonth()];
+                var hours=now.getHours()-2;
+                var min=now.getMinutes();
                 var day = now.getDate();
                 let newdate = document.getElementById('today-date');
                  if(cityval === ''){
                      newdate.innerText = `Date,Month`;
                      }
                      else{
-                  newdate.innerText = `${day},${month}`;
+                  newdate.innerText = `${day},${month},time:${hours},${min}`;
                      }
                
                 

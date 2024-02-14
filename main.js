@@ -11,14 +11,14 @@ app.set("views",templatepath);   //to use partials
 hbs.registerPartials(partialpath); //to use partials
 // app.use(express.static(staticpath));  //for only static page rendering   static filkes will be in public folder
 
-app.get("https://backendweatherapp-tau.vercel.app/",(req,res)=>{
+app.get("/",(req,res)=>{
    res.render("index");
 })
- app.get('https://backendweatherapp-tau.vercel.app/about',(req,res)=>{
+ app.get('/about',(req,res)=>{
    res.render('about')  //page will be under views folder
 })
 
- app.get('https://backendweatherapp-tau.vercel.app/weather',(req,res)=>{
+ app.get('/weather',(req,res)=>{
     res.render('weather');
  })
 

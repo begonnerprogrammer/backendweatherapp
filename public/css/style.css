@@ -51,22 +51,6 @@ html {
     background-color: grey;
 }
 
-.fa-snowflake {
-    transition: all linear;
-    animation: rot 2s linear infinite;
-    color: var(--main-color);
-}
-
-@keyframes rot {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 .main_header_left {
     height: 50rem;
     display: flex;
